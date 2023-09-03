@@ -3,19 +3,19 @@ import { Box } from "@mui/material";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 
-export type RegisterData = {
+export type AuthCredentials = {
   name: string;
   email: string;
   password: string;
 };
 
 interface RegisterFormProps {
-  initialValues: RegisterData;
+  initialValues: AuthCredentials;
   handleRegisterFormik(
-    userData: RegisterData,
-    formikHelpers: FormikHelpers<RegisterData>
+    userData: AuthCredentials,
+    formikHelpers: FormikHelpers<AuthCredentials>
   ): void;
-  registerUserSchema: Yup.ObjectSchema<RegisterData>;
+  registerUserSchema: Yup.ObjectSchema<AuthCredentials>;
 }
 
 const RegisterForm = ({

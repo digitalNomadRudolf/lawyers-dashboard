@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { registerUser, loginUser } from "./utils";
-import { UserCredentials } from "../../types/UserCredentials";
-import { RegisterData } from "../../components/RegisterForm";
+import { AuthCredentials } from "../../components/RegisterForm";
 
 const authSlice = createSlice({
   name: "auth",
@@ -30,7 +29,7 @@ const authSlice = createSlice({
 
 export const registerUserAsync = createAsyncThunk(
   "auth/registerUser",
-  async (userData: RegisterData, { dispatch }) => {
+  async (userData: AuthCredentials, { dispatch }) => {
     const response = await registerUser(userData);
     const token = response.data.token;
     localStorage.setItem("token", token);
@@ -43,7 +42,7 @@ export const registerUserAsync = createAsyncThunk(
 
 export const loginUserAsync = createAsyncThunk(
   "auth/loginUser",
-  async (credentials: UserCredentials, thunkAPI) => {
+  async (credentials: AuthCredentials, thunkAPI) => {
     const response = await loginUser(credentials);
     const token = response.data.token;
     localStorage.setItem("token", token);
