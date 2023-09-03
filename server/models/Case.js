@@ -12,7 +12,22 @@ const CaseSchema = new mongoose.Schema(
       required: true,
       min: 50,
     },
-    date: Date,
+    client: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Client",
+      required: true,
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: Date,
+    status: {
+      type: String,
+      enum: ["Open", "Closed", "Pending"],
+      default: "Open",
+    },
+    documents: [{ type: mongoose.Schema.Types.ObjectId, ref: "Document" }],
   },
   { timestamps: true }
 );
