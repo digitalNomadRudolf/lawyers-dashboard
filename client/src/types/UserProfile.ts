@@ -1,7 +1,7 @@
 export interface UserProfile {
   userId: string;
   name: string;
-  role: string;
+  role: UserRole;
   avatar: string;
   email: string;
   password: string;
@@ -10,6 +10,11 @@ export interface UserProfile {
     zipcode: string;
   };
   phoneNumber: string;
+}
+
+export enum UserRole {
+  admin = "admin",
+  user = "user",
 }
 
 export interface UserProfileState {
