@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { Formik, Field, Form, FormikHelpers } from "formik";
+import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 export type AuthCredentials = {
@@ -32,27 +32,49 @@ const RegisterForm = ({
         onSubmit={handleRegisterFormik}
         validationSchema={registerUserSchema}
       >
-        <Form>
-          <label htmlFor="name">Name</label>
-          <Field id="name" name="name" placeholder="Your full name..." />
+        {({ errors, touched }) => (
+          <Form>
+            <label htmlFor="name">Name</label>
+            <Field id="name" name="name" placeholder="Your full name..." />
+            {errors.name && touched.name ? <div>{errors.name}</div> : null}
+            <ErrorMessage
+              name="name"
+              component="div"
+              className="alert alert-danger"
+            />
 
-          <label htmlFor="email">Email</label>
-          <Field
-            id="email"
-            name="email"
-            placeholder="Your email"
-            type="email"
-          />
+            <label htmlFor="email">Email</label>
+            <Field
+              id="email"
+              name="email"
+              placeholder="Your email"
+              type="email"
+            />
+            {errors.email && touched.email ? <div>{errors.email}</div> : null}
+            <ErrorMessage
+              name="email"
+              component="div"
+              className="alert alert-danger"
+            />
 
-          <label htmlFor="password">Password</label>
-          <Field
-            id="password"
-            name="password"
-            placeholder="Create a password of a minimum of 12 characters"
-          />
+            <label htmlFor="password">Password</label>
+            <Field
+              id="password"
+              name="password"
+              placeholder="Create a password of a minimum of 12 characters"
+            />
+            {errors.password && touched.password ? (
+              <div>{errors.password}</div>
+            ) : null}
+            <ErrorMessage
+              name="password"
+              component="div"
+              className="alert alert-danger"
+            />
 
-          <button type="submit">Register</button>
-        </Form>
+            <button type="submit">Register</button>
+          </Form>
+        )}
       </Formik>
     </Box>
   );
