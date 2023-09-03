@@ -1,5 +1,5 @@
 import React from "react";
-import { RegisterData } from "../components/RegisterForm";
+import { AuthCredentials } from "../components/RegisterForm";
 import { Box } from "@mui/material";
 import RegisterForm from "../components/RegisterForm";
 import { registerUserAsync } from "../features/auth/authSlice";
@@ -8,7 +8,7 @@ import { FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 
-export const registerUserValidation: Yup.ObjectSchema<RegisterData> =
+export const registerUserValidation: Yup.ObjectSchema<AuthCredentials> =
   Yup.object().shape({
     name: Yup.string()
       .min(4, "must be at least 4 characters long")
@@ -23,15 +23,15 @@ export const registerUserValidation: Yup.ObjectSchema<RegisterData> =
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
-  const initialValues: RegisterData = {
+  const initialValues: AuthCredentials = {
     name: "",
     email: "",
     password: "",
   };
 
   const handleRegisterFormik = async (
-    userData: RegisterData,
-    formikHelpers: FormikHelpers<RegisterData>
+    userData: AuthCredentials,
+    formikHelpers: FormikHelpers<AuthCredentials>
   ) => {
     try {
       const resultAction = await dispatch(registerUserAsync(userData) as any);
