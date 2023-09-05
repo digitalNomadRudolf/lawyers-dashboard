@@ -16,14 +16,14 @@ router.post("/", async (req, res) => {
     const { name, email, password } = req.body;
 
     // Check if user exists in DB
-    const existingUser = UserProfile.findOne({ email });
+    const existingUser = await UserProfile.findOne({ email });
 
     if (existingUser) {
       return res.status(409).json({ error: "User already exists!" });
     }
 
     // Hash password before saving it in DB
-    const hashedPassword = bcrypt.hash(password, 12);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     // Create a user registration
     const userRegistration = new Register({
