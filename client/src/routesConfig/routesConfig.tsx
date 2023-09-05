@@ -2,6 +2,7 @@ import { Dashboard } from "@mui/icons-material";
 import Layout from "../layout/Layout";
 import { Navigate } from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage";
+import LoginPage from "../pages/LoginPage";
 
 interface RouteConfig {
   path: string;
@@ -19,6 +20,11 @@ const routes: RouteConfig[] = [
       {
         path: "register",
         element: <RegisterPage />,
+        authRequired: false,
+      },
+      {
+        path: "login",
+        element: <LoginPage />,
         authRequired: false,
       },
       {
