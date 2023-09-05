@@ -1,7 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
-import { v4 as uuidv4 } from "uuid";
 import Register from "../models/Register.js";
+import UserProfile from "../models/UserProfile.js";
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 
@@ -14,24 +15,31 @@ router.post("/", async (req, res) => {
     // Get the userData from the req.body
     const { name, email, password } = req.body;
 
+    // Check if user exists in DB
+    const existingUser = UserProfile.findOne({ email });
+
+    if (existingUser) {
+      return res.status(409).json({ error: "User already exists!" });
+    }
+
+    // Hash password before saving it in DB
+    const hashedPassword = bcrypt.hash(password, 12);
+
     // Create a user registration
     const userRegistration = new Register({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
+
     // Save to DB
     await userRegistration.save();
     console.log({ userRegistration });
-    // Generate unique token with a library
-    const token = uuidv4();
-    console.log({ token });
 
     const response = {
       ...userRegistration.toObject(),
-      token,
     };
-    // Send 201 status and send along the token formatted with json
+    // Send 201 status and send response
     res.status(201).json(response);
   } catch (error) {
     res.status(500).json({ error: error.message });

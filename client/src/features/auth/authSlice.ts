@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { registerUser, loginUser } from "./utils";
 import { AuthCredentials } from "../../components/RegisterForm";
+import { Omit } from "@reduxjs/toolkit/dist/tsHelpers";
 
 const authSlice = createSlice({
   name: "auth",
@@ -31,22 +32,21 @@ export const registerUserAsync = createAsyncThunk(
   "auth/registerUser",
   async (userData: AuthCredentials, { dispatch }) => {
     const response = await registerUser(userData);
-    const token = response.data.token;
-    localStorage.setItem("token", token);
     console.log({ response });
+    return response;
 
-    dispatch(login(response.data));
     return response.data;
   }
 );
 
 export const loginUserAsync = createAsyncThunk(
   "auth/loginUser",
-  async (credentials: AuthCredentials, thunkAPI) => {
+  async (credentials: Omit<AuthCredentials, "name">, { dispatch }) => {
     const response = await loginUser(credentials);
     const token = response.data.token;
+    console.log("login response: ", response);
     localStorage.setItem("token", token);
-    thunkAPI.dispatch(login({ token }));
+    dispatch(login({ token }));
     return response;
   }
 );

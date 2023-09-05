@@ -4,7 +4,6 @@ import { Box } from "@mui/material";
 import RegisterForm from "../components/RegisterForm";
 import { registerUserAsync } from "../features/auth/authSlice";
 import * as Yup from "yup";
-import { FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 
@@ -29,15 +28,13 @@ const RegisterPage = () => {
     password: "",
   };
 
-  const handleRegisterFormik = async (
-    userData: AuthCredentials,
-    formikHelpers: FormikHelpers<AuthCredentials>
-  ) => {
+  const handleRegister = async (userData: AuthCredentials) => {
     try {
       const resultAction = await dispatch(registerUserAsync(userData) as any);
       const response = unwrapResult(resultAction);
       console.log(response);
-      //return response;
+
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -45,10 +42,17 @@ const RegisterPage = () => {
 
   // On succesfully registering, call registerUserAsync passing in the userData
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+      }}
+    >
       <RegisterForm
         initialValues={initialValues}
-        handleRegisterFormik={handleRegisterFormik}
+        handleRegisterFormik={handleRegister}
         registerUserSchema={registerUserValidation}
       />
     </Box>
