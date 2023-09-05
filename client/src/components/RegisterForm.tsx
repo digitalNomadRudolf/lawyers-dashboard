@@ -1,7 +1,16 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
+import { Formik, Form, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {
+  PageWrapper,
+  Label,
+  Input,
+  SubmitButton,
+  StyledErrorMessage,
+  StyledTitle,
+} from "../styles";
+import "../styles/errors.css";
 
 export type AuthCredentials = {
   name: string;
@@ -25,58 +34,90 @@ const RegisterForm = ({
 }: RegisterFormProps) => {
   // Formik form
   return (
-    <Box>
-      <h1>Signup</h1>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleRegisterFormik}
-        validationSchema={registerUserSchema}
-      >
-        {({ errors, touched }) => (
-          <Form>
-            <label htmlFor="name">Name</label>
-            <Field id="name" name="name" placeholder="Your full name..." />
-            {errors.name && touched.name ? <div>{errors.name}</div> : null}
-            <ErrorMessage
-              name="name"
-              component="div"
-              className="alert alert-danger"
-            />
+    <PageWrapper>
+      <Box>
+        <StyledTitle>Signup</StyledTitle>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleRegisterFormik}
+          validationSchema={registerUserSchema}
+          validateOnMount={true}
+        >
+          {({ errors, touched, isValid, isSubmitting }) => (
+            <Form>
+              <Label htmlFor="name">
+                <Input
+                  type="text"
+                  name="name"
+                  autoCorrect="off"
+                  autoComplete="name"
+                  placeholder="Your full name..."
+                  className={
+                    errors.name && touched.name
+                      ? "error"
+                      : !errors.name && touched.name
+                      ? "valid"
+                      : ""
+                  }
+                />
+              </Label>
+              <div className="error-container">
+                <ErrorMessage name="name" className="error-message">
+                  {(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>}
+                </ErrorMessage>
+              </div>
 
-            <label htmlFor="email">Email</label>
-            <Field
-              id="email"
-              name="email"
-              placeholder="Your email"
-              type="email"
-            />
-            {errors.email && touched.email ? <div>{errors.email}</div> : null}
-            <ErrorMessage
-              name="email"
-              component="div"
-              className="alert alert-danger"
-            />
+              <Label htmlFor="email">
+                <Input
+                  type="email"
+                  name="email"
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  autoComplete="email"
+                  placeholder="Your email"
+                  className={
+                    errors.email && touched.email
+                      ? "error"
+                      : !errors.email && touched.email
+                      ? "valid"
+                      : ""
+                  }
+                />
+              </Label>
+              <div className="error-container">
+                <ErrorMessage name="email" className="error-message">
+                  {(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>}
+                </ErrorMessage>
+              </div>
 
-            <label htmlFor="password">Password</label>
-            <Field
-              id="password"
-              name="password"
-              placeholder="Create a password of a minimum of 12 characters"
-            />
-            {errors.password && touched.password ? (
-              <div>{errors.password}</div>
-            ) : null}
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="alert alert-danger"
-            />
+              <Label htmlFor="password">
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="Your password..."
+                  className={
+                    errors.password && touched.password
+                      ? "error"
+                      : !errors.password && touched.password
+                      ? "valid"
+                      : ""
+                  }
+                />
+              </Label>
+              <div className="error-container">
+                <ErrorMessage name="password" className="error-message">
+                  {(msg) => <StyledErrorMessage>{msg}</StyledErrorMessage>}
+                </ErrorMessage>
+              </div>
 
-            <button type="submit">Register</button>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+              <SubmitButton type="submit" disabled={!isValid || isSubmitting}>
+                {isSubmitting ? "Loading..." : "Register"}
+              </SubmitButton>
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </PageWrapper>
   );
 };
 

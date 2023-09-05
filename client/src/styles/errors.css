@@ -1,0 +1,12 @@
+.error-container {
+    min-width: 500px;
+    width: auto;
+}
+
+.error-message {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+}
