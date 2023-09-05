@@ -7,6 +7,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import casesRoutes from "./routes/cases.js";
 import registerRoutes from "./routes/register.js";
+import loginRoutes from "./routes/login.js";
 
 // Configuration
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(cors());
 
 // Routes
 app.use("/register", registerRoutes);
+app.use("/login", loginRoutes);
 app.use("/cases", casesRoutes);
 
 // Mongoose setup
