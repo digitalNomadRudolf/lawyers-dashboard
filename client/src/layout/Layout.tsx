@@ -24,7 +24,9 @@ const Layout = () => {
       />
       <Box flexGrow={1}>
         <Navbar />
-        <Outlet />
+        <Box height="95vh">
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );
