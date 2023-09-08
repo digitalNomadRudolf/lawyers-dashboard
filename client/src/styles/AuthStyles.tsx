@@ -1,18 +1,46 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { Field } from "formik";
+import { Field, Form } from "formik";
 
 export const PageWrapper = styled.div`
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 1rem;
   line-height: 1.5rem;
-  max-width: 35em;
   margin-left: auto;
   margin-right: auto;
-  padding: 1rem 0.75rem;
-  border: 1px solid lightgrey;
   border-radius: 4px;
+`;
+
+// Center Register and Login boxes
+export const CenterBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
+
+export const AuthForm = styled(Form)`
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1rem;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    margin-bottom: 20px;
+  }
+`;
+
+export const FieldWrapper = styled.div`
+  text-align: left;
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
 `;
 
 export const StyledTitle = styled.h1`
@@ -28,7 +56,7 @@ export const Label = styled.label`
 export const Input = styled(Field)`
   background-color: white;
   border: 1px solid lightgrey;
-  border-radius: 4px;
+  border-radius: 3px;
   font-size: 1rem;
   line-height: 1.5rem;
   font-style: normal;
@@ -100,7 +128,7 @@ export const Input = styled(Field)`
 export const StyledErrorMessage = styled.div`
   background-color: rgb(255, 245, 245);
   color: rgb(120, 27, 0);
-  display: "flex";
+  display: flex;
   padding: 1rem 0.75rem;
   margin-top: 0.5rem;
 `;
@@ -120,11 +148,13 @@ export const SubmitButton = styled.button`
   white-space: nowrap;
   color: rgb(232, 243, 255) !important;
   padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
 
   &:active,
   &:focus,
   &:hover {
     cursor: pointer;
+    background-color: #3c81c9;
   }
 
   &:disabled {
