@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
     const { name, email, password } = req.body;
 
     // Check if user exists in DB
-    const existingUser = await UserProfile.findOne({ email });
+    const existingUser = await Register.findOne({ email });
 
     if (existingUser) {
       return res.status(409).json({ error: "User already exists!" });
@@ -35,6 +35,15 @@ router.post("/", async (req, res) => {
     // Save to DB
     await userRegistration.save();
     console.log({ userRegistration });
+
+    // Create a userProfile from the req data and save it to DB
+    const userProfile = new UserProfile({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    await userProfile.save();
 
     const response = {
       ...userRegistration.toObject(),
