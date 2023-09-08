@@ -15,9 +15,9 @@ import {
   PageWrapper,
   StyledTitle,
 } from "../styles/AuthStyles";
+import { Link } from "react-router-dom";
 import { Formik, ErrorMessage } from "formik";
 import { useNavigate } from "react-router-dom";
-import { storeLoginData } from "../features/auth/utils";
 
 const loginUserValidation: Yup.ObjectSchema<Omit<AuthCredentials, "name">> =
   Yup.object().shape({
@@ -46,13 +46,9 @@ const LoginPage = () => {
       const loginAction = await dispatch(loginUserAsync(userData) as any);
       const response = unwrapResult(loginAction);
       console.log(response);
-      //Store user login data
-      storeLoginData(response.token);
 
       // Redirect to Dashboard Page
       navigate("/dashboard");
-
-      return response;
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +61,7 @@ const LoginPage = () => {
           initialValues={initialValues}
           validationSchema={loginUserValidation}
           onSubmit={handleLogin}
+          validateOnMount={true}
         >
           {({ errors, touched, isValid, isSubmitting }) => (
             <AuthForm>
@@ -115,6 +112,9 @@ const LoginPage = () => {
               <SubmitButton type="submit" disabled={!isValid || isSubmitting}>
                 {isSubmitting ? "Logging in..." : "Login"}
               </SubmitButton>
+              <Link to="/register">
+                Don't have an account yet? Register here
+              </Link>
             </AuthForm>
           )}
         </Formik>

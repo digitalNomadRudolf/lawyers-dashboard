@@ -17,20 +17,3 @@ export const loginUser = async (credentials: Omit<AuthCredentials, "name">) => {
 };
 
 export const logoutUser = async () => {};
-
-// After successful login, store data in localStorage
-export const storeLoginData = (token: string) => {
-  localStorage.setItem("token", token);
-  localStorage.setItem("isLoggedIn", "true");
-};
-
-// Check for existing login data
-export const checkExistingLoginData = () => {
-  const token = localStorage.getItem("token");
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-
-  return {
-    token,
-    isLoggedIn,
-  };
-};
