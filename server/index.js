@@ -8,6 +8,8 @@ import morgan from "morgan";
 import casesRoutes from "./routes/cases.js";
 import registerRoutes from "./routes/register.js";
 import loginRoutes from "./routes/login.js";
+import cron from "node-cron";
+import Register from "./models/Register.js";
 
 // Configuration
 dotenv.config();
@@ -25,6 +27,22 @@ app.use(cors());
 app.use("/register", registerRoutes);
 app.use("/login", loginRoutes);
 app.use("/cases", casesRoutes);
+
+// Clear up expired tokens
+const cleanupExpiredTokens = async () => {
+  const now = new Date();
+  await Register.deleteMany({ tokenExpiration: { $lt: now } });
+};
+
+// Schedule the cron job to run daily at a specific time
+cron.schedule("0 0 * * *", async () => {
+  try {
+    await cleanupExpiredTokens();
+    console.log("Expired tokens cleaned up successfully.");
+  } catch (error) {
+    console.error("Error cleaning up expired tokens: ", error);
+  }
+});
 
 // Mongoose setup
 const PORT = process.env.PORT || 9000;
