@@ -16,6 +16,11 @@ const RegisterSchema = new mongoose.Schema({
     required: true,
     min: 12,
   },
+  token: {
+    type: String,
+    unique: true,
+  },
+  tokenExpiration: Date,
 });
 
 const Register = mongoose.model("Register", RegisterSchema);
