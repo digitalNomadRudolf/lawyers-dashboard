@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
-import UserProfile from "../models/UserProfile.js";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
+import Register from "../models/Register.js";
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
     const { email, password } = req.body;
 
     // Find user in DB
-    const user = await UserProfile.findOne({ email });
+    const user = await Register.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ error: "User not found!" });
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
 
     await user.save();
     // Return the user's token as a response(200 status)
-    return res.status(200).json({ token });
+    return res.status(200).json(user);
   } catch (error) {
     // 500 status with error message
     return res.status(500).json({ error: error.message });
