@@ -80,7 +80,12 @@ const Sidebar: FC<Props> = ({
   const theme = useTheme();
 
   return (
-    <Box>
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      height="100%"
+    >
       {isSidebarOpen && (
         <Drawer
           open={isSidebarOpen}
@@ -92,64 +97,67 @@ const Sidebar: FC<Props> = ({
             flexShrink: 0,
             "& .MuiDrawer-paper": {
               width: sidebarWidth,
+              justifyContent: "space-between",
             },
           }}
         >
-          <Box display="flex" alignItems="center" gap="0.5rem">
-            <Typography variant="h4" fontWeight="bold">
-              LAWFIRM PORTAL
-            </Typography>
-            {isMobile && (
-              <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                <ChevronLeft />
-              </IconButton>
-            )}
+          <Box display="flex" marginLeft="auto" flexDirection="column">
+            <Box display="flex" alignItems="center" gap="0.5rem">
+              <Typography variant="h4" fontWeight="bold">
+                LAWFIRM PORTAL
+              </Typography>
+              {isMobile && (
+                <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                  <ChevronLeft />
+                </IconButton>
+              )}
+            </Box>
+            <List>
+              {menuItems.map(({ text, icon }) => {
+                const smallText = text.toLowerCase();
+
+                return (
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton
+                      onClick={() => {
+                        navigate(`/${smallText}`);
+                        setActiveMenuItem(smallText);
+                      }}
+                      sx={{
+                        backgroundColor:
+                          smallText === activeMenuItem
+                            ? theme.palette.primary["dark"]
+                            : "transparent",
+                        color:
+                          smallText === activeMenuItem
+                            ? theme.palette.primary["contrastText"]
+                            : theme.palette.secondary["main"],
+                        "&:hover": {
+                          color: theme.palette.primary["dark"],
+                        },
+                      }}
+                    >
+                      {icon && (
+                        <ListItemIcon
+                          sx={{
+                            color:
+                              smallText === activeMenuItem
+                                ? theme.palette.primary["light"]
+                                : theme.palette.primary["dark"],
+                          }}
+                        >
+                          {icon}
+                        </ListItemIcon>
+                      )}
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
+            </List>
           </Box>
-          <List>
-            {menuItems.map(({ text, icon }) => {
-              const smallText = text.toLowerCase();
 
-              return (
-                <ListItem key={text} disablePadding>
-                  <ListItemButton
-                    onClick={() => {
-                      navigate(`/${smallText}`);
-                      setActiveMenuItem(smallText);
-                    }}
-                    sx={{
-                      backgroundColor:
-                        smallText === activeMenuItem
-                          ? theme.palette.primary["dark"]
-                          : "transparent",
-                      color:
-                        smallText === activeMenuItem
-                          ? theme.palette.primary["contrastText"]
-                          : theme.palette.secondary["main"],
-                      "&:hover": {
-                        color: theme.palette.primary["dark"],
-                      },
-                    }}
-                  >
-                    {icon && (
-                      <ListItemIcon
-                        sx={{
-                          color:
-                            smallText === activeMenuItem
-                              ? theme.palette.primary["light"]
-                              : theme.palette.primary["dark"],
-                        }}
-                      >
-                        {icon}
-                      </ListItemIcon>
-                    )}
-                    <ListItemText primary={text} />
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
-          </List>
-
-          <Box position="relative" bottom="2rem">
+          <Box display="flex" position="relative" bottom="2rem">
             {/* TODO: Get username & profile image from userProfile */}
             <Box
               component="img"
