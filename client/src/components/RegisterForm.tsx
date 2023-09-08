@@ -10,6 +10,7 @@ import {
   FieldWrapper,
 } from "../styles/AuthStyles";
 import "../styles/errors.css";
+import { Link } from "react-router-dom";
 
 export type AuthCredentials = {
   name: string;
@@ -122,6 +123,7 @@ const RegisterForm = ({
           <SubmitButton type="submit" disabled={!isValid || isSubmitting}>
             {isSubmitting ? "Loading..." : "Register"}
           </SubmitButton>
+          <Link to="/login">Already have an account? Login here</Link>
         </AuthForm>
       )}
     </Formik>
