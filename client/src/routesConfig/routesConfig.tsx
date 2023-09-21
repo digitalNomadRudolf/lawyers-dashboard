@@ -1,10 +1,9 @@
-import { Dashboard } from "@mui/icons-material";
 import Layout from "../layout/Layout";
-import { Navigate } from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LoginPage";
+import DashboardPage from "../pages/DashboardPage";
 
-interface RouteConfig {
+export interface RouteConfig {
   path: string;
   element: JSX.Element;
   children?: RouteConfig[];
@@ -13,29 +12,29 @@ interface RouteConfig {
 
 const routes: RouteConfig[] = [
   {
+    path: "/register",
+    element: <RegisterPage />,
+    authRequired: false,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+    authRequired: false,
+  },
+  {
     path: "/",
     element: <Layout />,
     authRequired: true,
     children: [
       {
-        path: "register",
-        element: <RegisterPage />,
-        authRequired: false,
-      },
-      {
-        path: "login",
-        element: <LoginPage />,
-        authRequired: false,
-      },
-      {
-        path: "dashboard",
-        element: <Dashboard />,
+        path: "/",
+        element: <DashboardPage />,
         authRequired: true,
       },
       {
-        path: "/",
-        element: <Navigate to="/dashboard" />,
-        authRequired: false,
+        path: "dashboard",
+        element: <DashboardPage />,
+        authRequired: true,
       },
     ],
   },
