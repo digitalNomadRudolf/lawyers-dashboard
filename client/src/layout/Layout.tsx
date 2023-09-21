@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 import { RootState } from "../store/store";
+import { UserInfo } from "../types/UserProfile";
 
 const Layout = () => {
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -12,18 +13,21 @@ const Layout = () => {
 
   // Get userProfile from the redux state
   const userProfile = useSelector((state: RootState) => state.userProfile);
+  const { name, avatar, role } = useSelector(
+    (state: RootState) => state.auth.user as UserInfo
+  );
 
   return (
     <Box display={isMobile ? "block" : "flex"}>
       <Sidebar
-        userProfile={userProfile}
+        userInfo={{ name, avatar }}
         isMobile={isMobile}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
         sidebarWidth="250px"
       />
       <Box flexGrow={1}>
-        <Navbar />
+        <Navbar name={name} avatar={avatar} role={role} />
         <Box height="95vh">
           <Outlet />
         </Box>
