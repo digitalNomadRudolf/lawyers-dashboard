@@ -58,7 +58,8 @@ const menuItems: SidebarMenuItem[] = [
 ];
 
 interface Props {
-  userProfile: UserProfileState;
+  userInfo: { name: string; avatar: string };
+  //userProfile: UserProfileState;
   sidebarWidth: string;
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -66,7 +67,7 @@ interface Props {
 }
 
 const Sidebar: FC<Props> = ({
-  userProfile,
+  userInfo,
   sidebarWidth,
   isSidebarOpen,
   setIsSidebarOpen,
@@ -76,7 +77,7 @@ const Sidebar: FC<Props> = ({
   const [activeMenuItem, setActiveMenuItem] = useState<string>("dashboard");
   // Navigate to other pages
   const navigate = useNavigate();
-  const { userProfile: profile } = userProfile;
+  const { name, avatar } = userInfo;
   const theme = useTheme();
 
   return (
@@ -101,9 +102,22 @@ const Sidebar: FC<Props> = ({
             },
           }}
         >
-          <Box display="flex" marginLeft="auto" flexDirection="column">
+          <Box
+            display="flex"
+            marginLeft="auto"
+            flexDirection="column"
+            width="100%"
+          >
             <Box display="flex" alignItems="center" gap="0.5rem">
-              <Typography variant="h4" fontWeight="bold">
+              <Typography
+                variant="h4"
+                fontWeight="500"
+                sx={{
+                  fontSize: "18px",
+                  padding: "19px 16px",
+                  color: "#1565c0",
+                }}
+              >
                 LAWFIRM PORTAL
               </Typography>
               {isMobile && (
@@ -157,22 +171,32 @@ const Sidebar: FC<Props> = ({
             </List>
           </Box>
 
-          <Box display="flex" position="relative" bottom="2rem">
-            {/* TODO: Get username & profile image from userProfile */}
-            <Box
-              component="img"
-              alt="profile"
-              src={profile?.avatar || ""}
-              height="50px"
-              width="50px"
-              borderRadius="50%"
-              sx={{ objectFit: "cover" }}
-            />
-            <Box>
-              <Typography>{profile?.name}</Typography>
-              <Typography>{profile?.role}</Typography>
+          <Box
+            display="flex"
+            position="relative"
+            bottom="2rem"
+            justifyContent="start"
+            padding="0 15px"
+          >
+            <Avatar
+              src={avatar}
+              alt={name}
+              sx={{ marginRight: 1, cursor: "pointer" }}
+            >
+              {name.substring(0, 1)}
+            </Avatar>
+            {/* <Box
+                component="img"
+                alt="profile"
+                src={avatar || ""}
+                height="50px"
+                width="50px"
+                borderRadius="50%"
+                sx={{ objectFit: "cover" }}
+              /> */}
+            <Box display="flex" alignItems="center" sx={{ cursor: "pointer" }}>
+              <SettingsOutlined sx={{ fontSize: "30px" }} />
             </Box>
-            <SettingsOutlined sx={{ fontSize: "30px" }} />
           </Box>
         </Drawer>
       )}
