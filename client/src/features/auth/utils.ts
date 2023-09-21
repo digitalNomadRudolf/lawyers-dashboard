@@ -11,7 +11,7 @@ export const registerUser = async (userData: AuthCredentials) => {
 };
 
 export const loginUser = async (credentials: Omit<AuthCredentials, "name">) => {
-  const response = axios.post(`${API_URL}/login`, credentials);
+  const response = await axios.post(`${API_URL}/login`, credentials);
   console.log(response);
   return response;
 };
