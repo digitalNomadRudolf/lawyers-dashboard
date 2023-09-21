@@ -6,7 +6,7 @@ import { Omit } from "@reduxjs/toolkit/dist/tsHelpers";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: {},
     isRegistering: false,
     registrationError: null,
     isLoggedIn: false,
@@ -40,7 +40,7 @@ const authSlice = createSlice({
       state.loginError = action.payload;
     },
     logout: (state) => {
-      state.user = null;
+      state.user = {};
       state.token = null;
       state.isLoggedIn = false;
       localStorage.removeItem("token");

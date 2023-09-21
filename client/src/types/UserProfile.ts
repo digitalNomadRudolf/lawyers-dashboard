@@ -20,3 +20,5 @@ export enum UserRole {
 export interface UserProfileState {
   userProfile: UserProfile | null;
 }
+
+export type UserInfo = Pick<UserProfile, "name" | "avatar" | "role">;
